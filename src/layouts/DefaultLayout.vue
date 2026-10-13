@@ -86,7 +86,7 @@ async function handleLogout() {
 
       <el-main class="layout__main">
         <router-view v-slot="{ Component }">
-          <keep-alive :include="['UserListView', 'HouseListView']">
+          <keep-alive :include="['UserListView', 'HouseListView', 'BaziListView']">
             <component :is="Component" />
           </keep-alive>
         </router-view>

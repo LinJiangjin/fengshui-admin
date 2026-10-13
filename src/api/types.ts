@@ -92,3 +92,29 @@ export interface UserDetailResult {
   user: UserInfo
   houses: AdminHouseItem[]
 }
+
+/** 后台命理档案列表项：用户录入的出生信息 + 归属用户 */
+export interface AdminBaziProfileItem {
+  id: string
+  owner_id: string | null
+  owner_phone: string
+  owner_nickname: string
+  /** 姓名（可选，用户没填就是空） */
+  name: string
+  /** 男 / 女 */
+  gender: string
+  year: number
+  month: number
+  day: number
+  hour: number
+  minute: number
+  /** 出生地省份 / 城市，仅作展示 */
+  province: string
+  city: string
+  /** 出生地东经度数，排盘真太阳时校正用 */
+  longitude: number
+  /** 四柱摘要，如「辛未 丁酉 癸未 丙辰」 */
+  pillars: string
+  created_at: string | null
+  updated_at: string | null
+}

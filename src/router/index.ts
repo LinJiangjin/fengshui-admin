@@ -38,6 +38,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/HouseListView.vue'),
         meta: { title: '房屋数据', icon: 'OfficeBuilding' },
       },
+      {
+        path: 'bazi',
+        name: 'bazi',
+        component: () => import('@/views/BaziListView.vue'),
+        meta: { title: '命理档案', icon: 'Tickets' },
+      },
     ],
   },
   {
