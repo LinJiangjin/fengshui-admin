@@ -19,8 +19,15 @@ export function fetchUserDetail(userId: string) {
   return get<UserDetailResult>(`/api/v1/admin/users/${encodeURIComponent(userId)}`)
 }
 
-/** 封禁 / 解封 */
-export function updateUserStatus(userId: string, status: UserStatus, reason = '') {
+/**
+ * 封禁 / 解封。
+ * 只接受 active / banned：deleted 是用户自助注销后的状态，后台不可设置。
+ */
+export function updateUserStatus(
+  userId: string,
+  status: 'active' | 'banned',
+  reason = '',
+) {
   return patch<UserInfo>(`/api/v1/admin/users/${encodeURIComponent(userId)}/status`, {
     status,
     reason,

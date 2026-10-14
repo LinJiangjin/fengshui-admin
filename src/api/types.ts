@@ -22,7 +22,12 @@ export interface PageResult<T> {
   items: T[]
 }
 
-export type UserStatus = 'active' | 'banned'
+/**
+ * 用户状态。
+ * deleted：用户自助注销后的匿名化空壳（手机号已抹除），
+ * 默认不出现在列表里，需显式筛选 status=deleted 才可见。
+ */
+export type UserStatus = 'active' | 'banned' | 'deleted'
 
 export interface UserInfo {
   id: string
@@ -117,4 +122,57 @@ export interface AdminBaziProfileItem {
   pillars: string
   created_at: string | null
   updated_at: string | null
+}
+
+/**
+ * 方案库（运营内容）。
+ *
+ * 色值字段在库里叫 from_color / to_color（`from` 是 Python 关键字，不能作列名），
+ * 下发到 App 的 /api/v1/library 时会被映射成 from / to；
+ * 后台接口一律用这里的库内列名。
+ */
+export interface AdminSchemeColor {
+  name: string
+  hex: string
+}
+
+export interface AdminSchemeRoom {
+  name: string
+  hex: string
+  note: string
+}
+
+/** 新建 / 更新方案的入参 */
+export interface SchemeInput {
+  title: string
+  subtitle: string
+  /** 风格标签，如「新中式」 */
+  tag: string
+  /** 五行：木 火 土 金 水 */
+  element: string
+  area: number
+  from_color: string
+  to_color: string
+  summary: string
+  highlights: string[]
+  colors: AdminSchemeColor[]
+  rooms: AdminSchemeRoom[]
+  /** 是否上架；下架后 App 端不可见 */
+  published: boolean
+  /** 展示顺序，越小越靠前 */
+  sort_order: number
+}
+
+export interface AdminSchemeItem extends SchemeInput {
+  id: string
+  created_at: string | null
+  updated_at: string | null
+}
+
+/** 五行宜忌解读；方案详情页的「宜 / 忌」按方案所属五行取这里 */
+export interface ElementNoteItem {
+  element: string
+  fit: string
+  avoid: string
+  sort_order: number
 }

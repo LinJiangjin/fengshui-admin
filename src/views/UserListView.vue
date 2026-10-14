@@ -173,10 +173,11 @@ onActivated(() => {
           </template>
         </el-input>
 
-        <el-select v-model="query.status" placeholder="全部状态" style="width: 140px">
-          <el-option label="全部状态" value="" />
+        <el-select v-model="query.status" placeholder="全部状态" style="width: 160px">
+          <el-option label="全部（未注销）" value="" />
           <el-option label="正常" value="active" />
           <el-option label="已封禁" value="banned" />
+          <el-option label="已注销" value="deleted" />
         </el-select>
 
         <el-button type="primary" :icon="'Search'" @click="handleSearch">查询</el-button>
@@ -203,6 +204,7 @@ onActivated(() => {
         <el-table-column label="状态" width="100" align="center">
           <template #default="{ row }">
             <el-tag v-if="row.status === 'active'" type="success" size="small">正常</el-tag>
+            <el-tag v-else-if="row.status === 'deleted'" type="info" size="small">已注销</el-tag>
             <el-tooltip v-else :content="row.ban_reason || '无原因记录'" placement="top">
               <el-tag type="danger" size="small">已封禁</el-tag>
             </el-tooltip>
@@ -233,6 +235,7 @@ onActivated(() => {
               详情
             </el-button>
             <el-button
+              v-if="row.status !== 'deleted'"
               link
               :type="row.status === 'active' ? 'warning' : 'success'"
               size="small"

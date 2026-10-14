@@ -44,6 +44,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/BaziListView.vue'),
         meta: { title: '命理档案', icon: 'Tickets' },
       },
+      {
+        path: 'schemes',
+        name: 'schemes',
+        component: () => import('@/views/SchemeListView.vue'),
+        meta: { title: '方案库', icon: 'PictureFilled' },
+      },
     ],
   },
   {

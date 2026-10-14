@@ -101,7 +101,7 @@ onMounted(load)
         <h2 class="page-title">用户详情</h2>
       </div>
       <el-button
-        v-if="user"
+        v-if="user && user.status !== 'deleted'"
         :type="user.status === 'active' ? 'warning' : 'success'"
         @click="toggleStatus"
       >
@@ -123,11 +123,21 @@ onMounted(load)
             <div class="profile__name">
               {{ user.nickname || '未设置昵称' }}
               <el-tag v-if="user.status === 'active'" type="success" size="small">正常</el-tag>
+              <el-tag v-else-if="user.status === 'deleted'" type="info" size="small">已注销</el-tag>
               <el-tag v-else type="danger" size="small">已封禁</el-tag>
             </div>
             <div class="profile__phone">{{ user.phone }}</div>
           </div>
         </div>
+
+        <el-alert
+          v-if="user.status === 'deleted'"
+          class="ban-alert"
+          type="info"
+          :closable="false"
+          show-icon
+          title="该账号已注销：房屋与命理档案已删除、手机号已抹除，此处仅保留用于统计的匿名记录"
+        />
 
         <el-alert
           v-if="user.status === 'banned'"
