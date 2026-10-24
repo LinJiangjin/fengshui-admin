@@ -10,6 +10,9 @@ export default defineConfig(({ mode }) => {
   const apiTarget = env.VITE_PROXY_TARGET || 'http://127.0.0.1:8000'
 
   return {
+    // 部署在后端单端口的 /admin 子路径下；改这里后必须重新构建，
+    // 资源 URL 与 vue-router 的 history base 都会随之加上 /admin/ 前缀。
+    base: '/admin/',
     plugins: [vue()],
     resolve: {
       alias: {

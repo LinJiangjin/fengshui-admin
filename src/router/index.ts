@@ -61,7 +61,10 @@ const routes: RouteRecordRaw[] = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  // base 取 vite 的 base（部署为 /admin/ 时即 /admin/）。
+  // 不能用默认值：不带 base 时 router.replace('/dashboard') 会跳出 /admin 前缀，
+  // 请求打到根路径，被服务端的 SPA 回退返回 Flutter 首页（踩过一次）。
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 })
 

@@ -21,6 +21,10 @@ const http = axios.create({
 http.interceptors.request.use((config) => {
   const token = getToken()
   if (token) {
+    // 主通道用 X-Auth-Token：托管平台的反向代理会给每个请求注入自己的
+    // Authorization 头并覆盖客户端传的值，走 Authorization 必然 401（踩过两次）。
+    // Authorization 仅留作本地无代理环境的兜底，后端两个通道都认。
+    config.headers['X-Auth-Token'] = token
     config.headers.Authorization = `Bearer ${token}`
   }
   return config
@@ -28,9 +32,12 @@ http.interceptors.request.use((config) => {
 
 function redirectToLogin(): void {
   clearAuthStorage()
+  const base = import.meta.env.BASE_URL || '/'
   const current = window.location.pathname + window.location.search
-  if (!current.startsWith('/login')) {
-    window.location.href = `/login?redirect=${encodeURIComponent(current)}`
+  const loginPath = `${base}login`
+  const relative = current.startsWith(base) ? current.slice(base.length - 1) : current
+  if (!relative.startsWith('/login')) {
+    window.location.href = `${loginPath}?redirect=${encodeURIComponent(relative)}`
   }
 }
 
